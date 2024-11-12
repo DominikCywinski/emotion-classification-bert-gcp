@@ -1,0 +1,9 @@
+transformers
+datasets
+numpy
+tf-keras
+tensorflow==2.9.1
+
+## GCP
+fastapi
+uvicorn
