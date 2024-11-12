@@ -34,4 +34,4 @@ base_model = TFAutoModel.from_pretrained(BASE_MODEL)
 classifier = train_model()
 
 print("Saving weights...")
-classifier.save_weights(os.path.join("../models", NEW_MODEL_NAME), save_format="h5")
+classifier.save_weights(os.path.join("models", NEW_MODEL_NAME), save_format="h5")
