@@ -1,6 +1,6 @@
 # Emotion Classification with fine-tuned BERT
 
-This project is a **Fine-tuned BERT-based emotion classification model** deployed using **FastAPI** as the web framework, containerized with **Docker**, and hosted on **Google Cloud Platform (GCP)**.
+This project is a **Fine-tuned BERT-based emotion classification model** deployed using **FastAPI** as the web framework, containerized with **Docker**, and hosted on **Google Cloud Platform (GCP)**. The project includes an **automated CI/CD pipeline** for seamless builds, tests, and deployments, as well as **unit tests** to ensure the reliability and accuracy of the model.
 
 ---
 
@@ -9,6 +9,8 @@ This project is a **Fine-tuned BERT-based emotion classification model** deploye
 - **FastAPI**: Provides an HTTP API to interact with the model.
 - **Dockerized Deployment**: The app runs in a Docker container for portability and scalability.
 - **GCP Integration**: Deployed to GCP Cloud Run for serverless and efficient hosting.
+- **Automated CI/CD Pipeline**: Automatically builds, tests, and deploys the application with each push to the repository or pull request.
+- **Unit Tests**: tests ensure the accuracy and reliability of the model.
 
 ---
 
