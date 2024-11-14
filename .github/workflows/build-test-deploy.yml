@@ -1,0 +1,67 @@
+name: CI/CD for Emotion Classification Model
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      
+jobs:  
+  build-test-deploy:
+    runs-on: self-hosted
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: 'Set GCP project'
+        run: |
+          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+        
+      - name: Download model from Google Cloud Storage
+        run: |
+          gsutil cp gs://predict-emotion-model-bucket/classifier.h5 models/classifier.h5
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          
+      - name: Run tests
+        run: |
+          pytest tests/
+
+      - name: Build Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/predict-emotion-image .
+          
+      - name: Configure Docker for Google Cloud Registry
+        run: |
+          gcloud auth configure-docker
+          
+      - name: Push Docker image to Google Container Registry
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/predict-emotion-image
+     
+      - name: Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy predict-emotion \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/predict-emotion-image \
+            --platform managed \
+            --region europe-central2 \
+            --allow-unauthenticated \
+            --quiet
