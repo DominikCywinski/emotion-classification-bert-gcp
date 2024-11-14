@@ -1,6 +1,5 @@
 import os
 import sys
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -8,7 +7,6 @@ from predict import predict
 
 
 app = FastAPI()
-
 
 class TextInput(BaseModel):
     text: str

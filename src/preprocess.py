@@ -1,6 +1,6 @@
-from transformers import AutoTokenizer
 import tensorflow as tf
-from utils import load_my_dataset, MAX_SEQ_LENGTH
+from transformers import AutoTokenizer
+from utils import load_my_dataset, MAX_SEQ_LENGTH, BATCH_SIZE, DATASET_NAME, BASE_MODEL
 
 
 def tokenize(batch):
@@ -19,7 +19,7 @@ def order(input):
     }, data[0]
 
 
-def preprocess_dataset(dataset_name: str = "SetFit/emotion", batch_size: int = 64):
+def preprocess_dataset(dataset_name: str = DATASET_NAME, batch_size: int = BATCH_SIZE):
     print("Data preprocessing...")
 
     dataset = load_my_dataset(dataset_name)
@@ -40,4 +40,4 @@ def preprocess_dataset(dataset_name: str = "SetFit/emotion", batch_size: int = 6
     return train_dataset, test_dataset
 
 
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)

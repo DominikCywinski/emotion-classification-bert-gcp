@@ -1,12 +1,14 @@
 import tensorflow as tf
 import os
 from datasets import load_dataset
+from transformers import TFAutoModel
 
 MAX_SEQ_LENGTH = 512
 BATCH_SIZE = 64
 DATASET_NAME = "SetFit/emotion"
 BASE_MODEL = "bert-base-uncased"
 NEW_MODEL_NAME = "classifier.h5"
+NEW_MODEL_PATH = os.path.join("models", NEW_MODEL_NAME)
 
 LABELS = {
     0: "sadness",
@@ -22,8 +24,10 @@ def load_my_dataset(dataset_name: str = DATASET_NAME):
     return load_dataset(dataset_name)
 
 
-def load_model(base_model, model_name: str = "classifier.h5"):
+def load_model(model_name: str = NEW_MODEL_NAME):
     from model import BertClassification
+
+    base_model = TFAutoModel.from_pretrained(BASE_MODEL)
 
     model = BertClassification(base_model, num_classes=len(LABELS))
     model.compile(

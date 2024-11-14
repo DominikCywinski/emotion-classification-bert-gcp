@@ -1,5 +1,5 @@
 from transformers import TFAutoModel, AutoTokenizer
-from utils import load_model, LABELS, BASE_MODEL, NEW_MODEL_NAME
+from utils import load_model, LABELS, BASE_MODEL
 import numpy as np
 
 
@@ -13,8 +13,7 @@ def predict(input_text):
     return LABELS[best_prediction]
 
 
-base_model = TFAutoModel.from_pretrained(BASE_MODEL)
-model = load_model(base_model=base_model, model_name=NEW_MODEL_NAME)
+model = load_model()
 
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
 
